@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -name: Checkout Code
-        use: action/checkout@v4
+        use: actions/checkout@v4
 
       -name: Setup Node.js
-        use: action/setup-node@v4
+        use: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
@@ -34,7 +34,7 @@ jobs:
         run: npm run build
 
       -name: Upload Build Output
-        use: action/upload-pages-artifact@v3
+        use: actions/upload-pages-artifact@v3
         with:
           path:
             -dist
@@ -48,4 +48,4 @@ jobs:
       steps:
         -name: Deploy to GitHiub Pages
         id: deploymnet
-        uses: action/deploy-pages@v4        
+        uses: actions/deploy-pages@v4        
