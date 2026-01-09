@@ -1,0 +1,51 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  content: read
+  pages: write
+  id_token: write
+
+concurrency:
+  group: "pages"
+  cancle-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -name: Checkout Code
+        use: action/checkout@v4
+
+      -name: Setup Node.js
+        use: action/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      -name: Install Dependencies
+        run: npm ci
+        
+      -name: Build Project
+        run: npm run build
+
+      -name: Upload Build Output
+        use: action/upload-pages-artifact@v3
+        with:
+          path:
+            -dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    enviorment:
+      name: github-pages
+      url: ${{steps.deploy.output.page_url}}
+      steps:
+        -name: Deploy to GitHiub Pages
+        id: deploymnet
+        uses: action/deploy-pages@v4        
