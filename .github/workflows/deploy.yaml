@@ -44,7 +44,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{steps.deploy.outputs.page_url}}
-      steps:
+    steps:
         - name: Deploy to GitHiub Pages
           id: deploymnet
           uses: actions/deploy-pages@v4        
